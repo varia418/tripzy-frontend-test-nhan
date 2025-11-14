@@ -51,7 +51,8 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: hsla(196, 100%, 55%, 1);
+  --primary-200: hsla(198, 100%, 96%, 1);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -119,4 +120,8 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@theme inline {
+  --color-primary-200: var(--primary-200);
 }

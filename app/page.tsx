@@ -1,3 +1,6 @@
+import CategoryTabs from "@/components/CategoryTabs";
+import { Button } from "@/components/ui/button";
+
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center gap-6 py-20">
@@ -10,8 +13,9 @@ export default function Home() {
           journeys with ease
         </p>
       </div>
-      <div>
-        <button>Search</button>
+      <div className="w-[1170px] flex flex-col gap-6 rounded-2xl bg-white pb-6">
+        <CategoryTabs />
+        <Button>Search</Button>
       </div>
     </div>
   );
