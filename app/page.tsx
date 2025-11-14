@@ -1,7 +1,32 @@
-import CategoryTabs from "@/components/CategoryTabs";
-import { Button } from "@/components/ui/button";
+import BookingForm from "@/components/BookingForm";
+import { keysToCamel } from "@/lib/utils";
+import busLocations from "@/mocks/bus-locations.json";
 
-export default function Home() {
+export interface Location {
+  shortCode: string;
+  englishName: string;
+  codeState: string;
+}
+
+export interface LocationData {
+  busLocations: Location[];
+  hotelLocations: Location[];
+  flightLocations: Location[];
+}
+
+async function fetchLocations(): Promise<LocationData> {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  return {
+    busLocations: keysToCamel(busLocations),
+    hotelLocations: [],
+    flightLocations: [],
+  };
+}
+
+export default async function Home() {
+  const locationData = await fetchLocations();
+
   return (
     <div className="flex flex-col items-center justify-center gap-6 py-20">
       <div className="flex flex-col gap-2 text-center">
@@ -13,10 +38,7 @@ export default function Home() {
           journeys with ease
         </p>
       </div>
-      <div className="w-[1170px] flex flex-col gap-6 rounded-2xl bg-white pb-6">
-        <CategoryTabs />
-        <Button>Search</Button>
-      </div>
+      <BookingForm locationData={locationData} />
     </div>
   );
 }
