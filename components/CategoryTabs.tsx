@@ -77,7 +77,7 @@ function CategoryTabs() {
   const [selectedTab, setSelectedTab] = useState<string>(tabs[0].value);
 
   return (
-    <div className="flex w-full items-stretch justify-between p-3">
+    <div className="flex w-full items-stretch justify-between rounded-2xl p-3 shadow-[0_4px_12px_0_rgba(0,0,0,0.1)]">
       {tabs.map((tab, index) => {
         const selected = selectedTab === tab.value;
         const shouldShowSeparator =
