@@ -1,49 +1,7 @@
-"use client";
-
-import React, { useState } from "react";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import { Separator } from "./ui/separator";
-
-interface CategoryTab {
-  label: string;
-  value: string;
-  icon: React.ReactNode;
-  selectedClassName: string;
-}
-
-const tabs: CategoryTab[] = [
-  {
-    label: "Bus & Shuttle",
-    value: "bus",
-    icon: (
-      <span className="flex size-12 flex-none items-center justify-center rounded-full bg-sky-100">
-        <Image src="/bus.svg" alt="bus" width={24} height={24} />
-      </span>
-    ),
-    selectedClassName: "bg-sky-50",
-  },
-  {
-    label: "Hotel & Accommodation",
-    value: "hotel",
-    icon: (
-      <span className="flex size-12 flex-none items-center justify-center rounded-full bg-lime-100">
-        <Image src="/hotel.svg" alt="hotel" width={24} height={24} />
-      </span>
-    ),
-    selectedClassName: "bg-lime-50",
-  },
-  {
-    label: "Flight",
-    value: "flight",
-    icon: (
-      <span className="flex size-12 flex-none items-center justify-center rounded-full bg-blue-100">
-        <Image src="/flight.svg" alt="flight" width={24} height={24} />
-      </span>
-    ),
-    selectedClassName: "bg-blue-50",
-  },
-];
+import { CategoryTab } from "./BookingForm";
+import React from "react";
 
 function TabButton({
   icon,
@@ -73,9 +31,17 @@ function TabButton({
   );
 }
 
-function CategoryTabs() {
-  const [selectedTab, setSelectedTab] = useState<string>(tabs[0].value);
+interface CategoryTabsProps {
+  tabs: CategoryTab[];
+  selectedTab: string;
+  setSelectedTab: (value: string) => void;
+}
 
+function CategoryTabs({
+  tabs,
+  selectedTab,
+  setSelectedTab,
+}: CategoryTabsProps) {
   return (
     <div className="flex w-full items-stretch justify-between rounded-2xl p-3 shadow-[0_4px_12px_0_rgba(0,0,0,0.1)]">
       {tabs.map((tab, index) => {
