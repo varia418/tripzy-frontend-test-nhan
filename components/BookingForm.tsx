@@ -63,7 +63,7 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
   }, [selectedTab, locationData]);
 
   return (
-    <div className="flex w-[1170px] flex-col items-center gap-6 rounded-2xl bg-white pb-6">
+    <div className="flex w-[1170px] flex-col items-center gap-6 rounded-2xl bg-white pb-6 shadow-[0_8px_32px_0_hsla(207,57%,29%,0.12)]">
       <CategoryTabs
         tabs={tabs}
         selectedTab={selectedTab}
