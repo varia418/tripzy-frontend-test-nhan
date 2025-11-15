@@ -72,13 +72,7 @@ const formSchema = z
         new Date(new Date().setHours(0, 0, 0, 0)),
         "You cannot select a date in the past"
       ),
-    returnDate: z
-      .date("Please enter a valid date")
-      .min(
-        new Date(new Date().setHours(0, 0, 0, 0)),
-        "You cannot select a date in the past"
-      )
-      .optional(),
+    returnDate: z.date("Please enter a valid date").optional(),
     roundTripEnabled: z.boolean(),
     passengers: z.number().min(1, "At least one passenger is required"),
   })
@@ -87,7 +81,16 @@ const formSchema = z
     path: ["returnDate"],
   })
   .refine(
-    (data) => !data.returnDate || data.returnDate! >= data.departureDate,
+    (data) =>
+      !data.roundTripEnabled ||
+      data.returnDate! >= new Date(new Date().setHours(0, 0, 0, 0)),
+    {
+      message: "You cannot select a date in the past",
+      path: ["returnDate"],
+    }
+  )
+  .refine(
+    (data) => !data.roundTripEnabled || data.returnDate! >= data.departureDate,
     {
       message: "Return date cannot be earlier than the departure date",
       path: ["returnDate"],
@@ -227,7 +230,14 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
                         </Label>
                       </div>
                       <FormControl>
-                        <DatePicker {...field} disabled={!roundTripEnabled} />
+                        <DatePicker
+                          {...field}
+                          disabled={!roundTripEnabled}
+                          onChange={(value) => {
+                            field.onChange(value);
+                            trigger("returnDate");
+                          }}
+                        />
                       </FormControl>
                       <FormMessage />
                     </>
