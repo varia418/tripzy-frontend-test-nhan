@@ -74,7 +74,9 @@ const formSchema = z
       ),
     returnDate: z.date("Please enter a valid date").optional(),
     roundTripEnabled: z.boolean(),
-    passengers: z.number().min(1, "At least one passenger is required"),
+    passengers: z
+      .number("Please enter a number")
+      .min(1, "At least one passenger is required"),
   })
   .refine((data) => !data.roundTripEnabled || data.returnDate, {
     message: "Please enter a valid date",
@@ -147,7 +149,7 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
             className="flex w-full flex-col items-center gap-6"
           >
             <div className="flex w-full gap-4 p-4">
-              <div className="grid grid-flow-col grid-rows-[repeat(3,minmax(0,max-content))] gap-2">
+              <div className="grid grid-flow-col grid-cols-[minmax(0,224px)_1fr_minmax(0,224px)] grid-rows-[repeat(3,minmax(0,max-content))] gap-2">
                 <FormField
                   control={control}
                   name="from"
@@ -190,7 +192,7 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
                   )}
                 />
               </div>
-              <div className="grid grid-flow-col grid-rows-[repeat(3,minmax(0,max-content))] gap-2">
+              <div className="grid grid-flow-col grid-cols-[repeat(2,minmax(0,224px))] grid-rows-[repeat(3,minmax(0,max-content))] gap-2">
                 <FormField
                   control={control}
                   name="departureDate"
@@ -254,8 +256,17 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
                       <FormControl>
                         <Input
                           {...field}
+                          className="w-[149px]"
                           type="number"
                           icon={<UserRound size={16} />}
+                          min={1}
+                          onChange={(e) => {
+                            if (e.target.valueAsNumber > 0) {
+                              field.onChange(e.target.valueAsNumber);
+                            } else {
+                              field.onChange(1);
+                            }
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
