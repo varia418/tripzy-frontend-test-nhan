@@ -19,6 +19,8 @@ import {
 import { Input } from "./ui/input";
 import BusIcon from "./icons/BusIcon";
 import { DatePicker } from "./ui/DatePicker";
+import { Label } from "./ui/label";
+import { Checkbox } from "./ui/checkbox";
 
 export interface CategoryTab {
   label: string;
@@ -60,13 +62,37 @@ const tabs: CategoryTab[] = [
   },
 ];
 
-const formSchema = z.object({
-  from: z.string().min(1, "Please enter a departure location"),
-  to: z.string().min(1, "Please enter a destination location"),
-  departureDate: z.date("Please enter a valid date"),
-  returnDate: z.date("Please enter a valid date").optional(),
-  passengers: z.number().min(1, "At least one passenger is required"),
-});
+const formSchema = z
+  .object({
+    from: z.string().min(1, "Please enter a departure location"),
+    to: z.string().min(1, "Please enter a destination location"),
+    departureDate: z
+      .date("Please enter a valid date")
+      .min(
+        new Date(new Date().setHours(0, 0, 0, 0)),
+        "You cannot select a date in the past"
+      ),
+    returnDate: z
+      .date("Please enter a valid date")
+      .min(
+        new Date(new Date().setHours(0, 0, 0, 0)),
+        "You cannot select a date in the past"
+      )
+      .optional(),
+    roundTripEnabled: z.boolean(),
+    passengers: z.number().min(1, "At least one passenger is required"),
+  })
+  .refine((data) => !data.roundTripEnabled || data.returnDate, {
+    message: "Please enter a valid date",
+    path: ["returnDate"],
+  })
+  .refine(
+    (data) => !data.returnDate || data.returnDate! >= data.departureDate,
+    {
+      message: "Return date cannot be earlier than the departure date",
+      path: ["returnDate"],
+    }
+  );
 
 function BookingForm({ locationData }: { locationData: LocationData }) {
   const [selectedTab, setSelectedTab] = useState<string>(tabs[0].value);
@@ -91,11 +117,14 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
       to: "",
       departureDate: undefined,
       returnDate: undefined,
+      roundTripEnabled: false,
       passengers: 1,
     },
   });
 
-  const { handleSubmit, control } = form;
+  const { handleSubmit, control, watch, setValue, trigger } = form;
+
+  const { roundTripEnabled } = watch();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
@@ -168,7 +197,37 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
                         DEPARTURE DATE
                       </FormLabel>
                       <FormControl>
-                        <DatePicker {...field} />
+                        <DatePicker
+                          {...field}
+                          onChange={(value) => {
+                            field.onChange(value);
+                            trigger("returnDate");
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </>
+                  )}
+                />
+                <FormField
+                  control={control}
+                  name="returnDate"
+                  render={({ field }) => (
+                    <>
+                      <div className="row-start-1 flex gap-2">
+                        <Checkbox
+                          checked={roundTripEnabled}
+                          onCheckedChange={(checked: boolean) => {
+                            setValue("roundTripEnabled", checked);
+                            trigger("returnDate");
+                          }}
+                        />
+                        <Label className="text-muted-foreground text-xs leading-4 font-medium tracking-normal">
+                          ROUND TRIP?
+                        </Label>
+                      </div>
+                      <FormControl>
+                        <DatePicker {...field} disabled={!roundTripEnabled} />
                       </FormControl>
                       <FormMessage />
                     </>
