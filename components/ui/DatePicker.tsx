@@ -36,12 +36,14 @@ interface DatePickerProps {
   value?: Date;
   onChange?: (value: Date | undefined) => void;
   className?: string;
+  disabled?: boolean;
 }
 
 export function DatePicker({
   value,
   onChange,
   className,
+  disabled,
   ...rest
 }: DatePickerProps) {
   const [open, setOpen] = useState(false);
@@ -53,6 +55,7 @@ export function DatePicker({
     <div className={cn("relative", className)}>
       <Input
         {...rest}
+        disabled={disabled}
         value={textValue}
         placeholder="DD/MM/YYYY 00:00"
         className="pl-9"
@@ -77,6 +80,7 @@ export function DatePicker({
           <Button
             variant="ghost"
             size="icon"
+            disabled={disabled}
             className="absolute top-1/2 left-3 size-4 -translate-y-1/2"
           >
             <CalendarIcon className="size-4" />
