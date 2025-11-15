@@ -69,8 +69,17 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
       />
-      <div></div>
-      <Button>Search</Button>
+      {locations.length > 0 ? (
+        <div>
+          <Button>Search</Button>
+        </div>
+      ) : (
+        <div className="flex h-28 w-full items-center justify-center">
+          <span className="text-muted-foreground text-lg leading-none font-normal tracking-normal">
+            No data
+          </span>
+        </div>
+      )}
     </div>
   );
 }
