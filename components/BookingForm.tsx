@@ -6,6 +6,19 @@ import { Button } from "./ui/button";
 import Image from "next/image";
 import { LocationData } from "@/app/page";
 import { Search } from "lucide-react";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
+import { Input } from "./ui/input";
+import BusIcon from "./icons/BusIcon";
 
 export interface CategoryTab {
   label: string;
@@ -47,6 +60,14 @@ const tabs: CategoryTab[] = [
   },
 ];
 
+const formSchema = z.object({
+  from: z.string().min(1, "Please enter a departure location"),
+  to: z.string().min(1, "Please enter a destination location"),
+  departureDate: z.date(),
+  returnDate: z.date().optional(),
+  passengers: z.number().min(1, "At least one passenger is required"),
+});
+
 function BookingForm({ locationData }: { locationData: LocationData }) {
   const [selectedTab, setSelectedTab] = useState<string>(tabs[0].value);
 
@@ -63,6 +84,23 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
     }
   }, [selectedTab, locationData]);
 
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      from: "",
+      to: "",
+      departureDate: undefined,
+      returnDate: undefined,
+      passengers: 1,
+    },
+  });
+
+  const { handleSubmit, control } = form;
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+  }
+
   return (
     <div className="flex w-[1170px] flex-col items-center gap-6 rounded-2xl bg-white pb-6 shadow-[0_8px_32px_0_hsla(207,57%,29%,0.12)]">
       <CategoryTabs
@@ -71,14 +109,60 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
         setSelectedTab={setSelectedTab}
       />
       {locations.length > 0 ? (
-        <div>
-          <Button className="flex w-[266px] gap-2 rounded-full px-5 py-4">
-            <Search />
-            <span className="text-sm leading-5 font-semibold tracking-[10%]">
-              SEARCH
-            </span>
-          </Button>
-        </div>
+        <Form {...form}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex w-full flex-col items-center gap-6"
+          >
+            <div className="flex w-full items-center justify-between gap-4 p-4">
+              <div className="flex items-center gap-2">
+                <FormField
+                  control={control}
+                  name="from"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>FROM</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="Enter city, terminal,..."
+                          icon={<BusIcon />}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={control}
+                  name="to"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>TO</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="Enter city, terminal,..."
+                          icon={<BusIcon />}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+            <Button
+              className="flex w-[266px] gap-2 rounded-full px-5 py-4"
+              type="submit"
+            >
+              <Search />
+              <span className="text-sm leading-5 font-semibold tracking-[10%]">
+                SEARCH
+              </span>
+            </Button>
+          </form>
+        </Form>
       ) : (
         <div className="flex h-28 w-full items-center justify-center">
           <span className="text-muted-foreground text-lg leading-none font-normal tracking-normal">
