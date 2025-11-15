@@ -8,7 +8,7 @@ import { LocationData } from "@/app/page";
 import { ArrowRightLeft, Search } from "lucide-react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -122,9 +122,9 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
     },
   });
 
-  const { handleSubmit, control, watch, setValue, trigger } = form;
+  const { handleSubmit, control, setValue, trigger } = form;
 
-  const { roundTripEnabled } = watch();
+  const { roundTripEnabled } = useWatch({ control });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
