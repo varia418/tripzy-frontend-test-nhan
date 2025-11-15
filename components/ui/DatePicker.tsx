@@ -60,13 +60,16 @@ export function DatePicker({
         placeholder="DD/MM/YYYY 00:00"
         className="pl-9"
         onChange={(e) => {
-          let date: Date | undefined = new Date(e.target.value);
+          const [day, month, year] = e.target.value.split("/").map(Number);
+          let date: Date | undefined = new Date(year, month - 1, day);
           if (!isValidDate(date)) {
             date = undefined;
           }
+
+          if (date) setMonth(date);
+
           setTextValue(e.target.value);
           setDate(date);
-          setMonth(date);
           onChange?.(date);
         }}
         onKeyDown={(e) => {
