@@ -5,6 +5,7 @@ import CategoryTabs from "./CategoryTabs";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { LocationData } from "@/app/page";
+import { Search } from "lucide-react";
 
 export interface CategoryTab {
   label: string;
@@ -71,7 +72,12 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
       />
       {locations.length > 0 ? (
         <div>
-          <Button>Search</Button>
+          <Button className="flex w-[266px] gap-2 rounded-full px-5 py-4">
+            <Search />
+            <span className="text-sm leading-5 font-semibold tracking-[10%]">
+              SEARCH
+            </span>
+          </Button>
         </div>
       ) : (
         <div className="flex h-28 w-full items-center justify-center">
