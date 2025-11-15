@@ -114,8 +114,8 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
             onSubmit={handleSubmit(onSubmit)}
             className="flex w-full flex-col items-center gap-6"
           >
-            <div className="flex w-full items-center justify-between gap-4 p-4">
-              <div className="grid grid-flow-col grid-rows-[repeat(3,auto)] gap-2">
+            <div className="flex w-full gap-4 p-4">
+              <div className="grid grid-flow-col grid-rows-[repeat(3,minmax(0,max-content))] gap-2">
                 <FormField
                   control={control}
                   name="from"
@@ -158,7 +158,7 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
                   )}
                 />
               </div>
-              <div className="grid grid-flow-col grid-rows-[repeat(3,auto)] gap-2">
+              <div className="grid grid-flow-col grid-rows-[repeat(3,minmax(0,max-content))] gap-2">
                 <FormField
                   control={control}
                   name="departureDate"
