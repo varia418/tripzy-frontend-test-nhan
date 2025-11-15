@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/popover";
 import { useState } from "react";
 import { Button } from "./button";
+import { cn } from "@/lib/utils";
 
 function formatDate(date: Date | undefined) {
   if (!date) {
@@ -34,17 +35,24 @@ function isValidDate(date: Date | undefined) {
 interface DatePickerProps {
   value?: Date;
   onChange?: (value: Date | undefined) => void;
+  className?: string;
 }
 
-export function DatePicker({ value, onChange }: DatePickerProps) {
+export function DatePicker({
+  value,
+  onChange,
+  className,
+  ...rest
+}: DatePickerProps) {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(value);
   const [month, setMonth] = useState<Date | undefined>(date);
   const [textValue, setTextValue] = useState(formatDate(date));
 
   return (
-    <div className="relative">
+    <div className={cn("relative", className)}>
       <Input
+        {...rest}
         value={textValue}
         placeholder="DD/MM/YYYY 00:00"
         className="pl-9"
