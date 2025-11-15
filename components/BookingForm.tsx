@@ -18,6 +18,7 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import BusIcon from "./icons/BusIcon";
+import { DatePicker } from "./ui/DatePicker";
 
 export interface CategoryTab {
   label: string;
@@ -62,8 +63,8 @@ const tabs: CategoryTab[] = [
 const formSchema = z.object({
   from: z.string().min(1, "Please enter a departure location"),
   to: z.string().min(1, "Please enter a destination location"),
-  departureDate: z.date(),
-  returnDate: z.date().optional(),
+  departureDate: z.date("Please enter a valid date"),
+  returnDate: z.date("Please enter a valid date").optional(),
   passengers: z.number().min(1, "At least one passenger is required"),
 });
 
@@ -151,6 +152,23 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
                           placeholder="Enter city, terminal,..."
                           icon={<BusIcon />}
                         />
+                      </FormControl>
+                      <FormMessage />
+                    </>
+                  )}
+                />
+              </div>
+              <div className="grid grid-flow-col grid-rows-[repeat(3,auto)] gap-2">
+                <FormField
+                  control={control}
+                  name="departureDate"
+                  render={({ field }) => (
+                    <>
+                      <FormLabel className="row-start-1">
+                        DEPARTURE DATE
+                      </FormLabel>
+                      <FormControl>
+                        <DatePicker {...field} />
                       </FormControl>
                       <FormMessage />
                     </>
