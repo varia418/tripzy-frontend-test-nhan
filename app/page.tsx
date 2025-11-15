@@ -29,7 +29,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center gap-6 py-20">
-      <div className="mt-24 flex flex-col gap-2 text-center">
+      <div className="mt-16 mb-8 flex flex-col gap-2 text-center">
         <h1 className="text-4xl leading-none font-semibold tracking-wider">
           Travel Smarter, Not Harder
         </h1>
