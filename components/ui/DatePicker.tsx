@@ -60,13 +60,14 @@ export function DatePicker({
         placeholder="DD/MM/YYYY 00:00"
         className="pl-9"
         onChange={(e) => {
-          const date = new Date(e.target.value);
-          setTextValue(e.target.value);
-          if (isValidDate(date)) {
-            setDate(date);
-            setMonth(date);
-            onChange?.(date);
+          let date: Date | undefined = new Date(e.target.value);
+          if (!isValidDate(date)) {
+            date = undefined;
           }
+          setTextValue(e.target.value);
+          setDate(date);
+          setMonth(date);
+          onChange?.(date);
         }}
         onKeyDown={(e) => {
           if (e.key === "ArrowDown") {
