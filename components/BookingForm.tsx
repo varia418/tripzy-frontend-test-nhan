@@ -5,7 +5,7 @@ import CategoryTabs from "./CategoryTabs";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { LocationData } from "@/app/page";
-import { Search } from "lucide-react";
+import { ArrowRightLeft, Search } from "lucide-react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -13,7 +13,6 @@ import {
   Form,
   FormControl,
   FormField,
-  FormItem,
   FormLabel,
   FormMessage,
 } from "./ui/form";
@@ -115,12 +114,12 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
             className="flex w-full flex-col items-center gap-6"
           >
             <div className="flex w-full items-center justify-between gap-4 p-4">
-              <div className="flex items-center gap-2">
+              <div className="grid grid-flow-col grid-rows-[repeat(3,auto)] gap-2">
                 <FormField
                   control={control}
                   name="from"
                   render={({ field }) => (
-                    <FormItem>
+                    <>
                       <FormLabel>FROM</FormLabel>
                       <FormControl>
                         <Input
@@ -130,15 +129,22 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
                         />
                       </FormControl>
                       <FormMessage />
-                    </FormItem>
+                    </>
                   )}
                 />
+                <Button
+                  variant={"ghost"}
+                  type="button"
+                  className="text-primary hover:text-primary row-start-2 size-12 self-end rounded-full p-3 shadow-[0_2px_4px_0_hsla(207,57%,29%,0.12)]"
+                >
+                  <ArrowRightLeft />
+                </Button>
                 <FormField
                   control={control}
                   name="to"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>TO</FormLabel>
+                    <>
+                      <FormLabel className="row-start-1">TO</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
@@ -147,7 +153,7 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
                         />
                       </FormControl>
                       <FormMessage />
-                    </FormItem>
+                    </>
                   )}
                 />
               </div>
