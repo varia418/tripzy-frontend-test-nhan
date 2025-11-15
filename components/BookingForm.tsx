@@ -5,7 +5,7 @@ import CategoryTabs from "./CategoryTabs";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { LocationData } from "@/app/page";
-import { ArrowRightLeft, Search } from "lucide-react";
+import { ArrowRightLeft, Search, UserRound } from "lucide-react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
@@ -158,7 +158,7 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
                         <Input
                           {...field}
                           placeholder="Enter city, terminal,..."
-                          icon={<BusIcon />}
+                          icon={<BusIcon size={16} />}
                         />
                       </FormControl>
                       <FormMessage />
@@ -182,7 +182,7 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
                         <Input
                           {...field}
                           placeholder="Enter city, terminal,..."
-                          icon={<BusIcon />}
+                          icon={<BusIcon size={16} />}
                         />
                       </FormControl>
                       <FormMessage />
@@ -237,6 +237,25 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
                             field.onChange(value);
                             trigger("returnDate");
                           }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </>
+                  )}
+                />
+              </div>
+              <div className="grid grid-flow-col grid-rows-[repeat(3,minmax(0,max-content))] gap-2">
+                <FormField
+                  control={control}
+                  name="passengers"
+                  render={({ field }) => (
+                    <>
+                      <FormLabel>NO. OF PASSENGER</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="number"
+                          icon={<UserRound size={16} />}
                         />
                       </FormControl>
                       <FormMessage />

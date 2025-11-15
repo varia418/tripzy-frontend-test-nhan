@@ -9,9 +9,11 @@ interface InputProps extends React.ComponentProps<"input"> {
 function Input({ className, type, icon, ...props }: InputProps) {
   return (
     <div className="relative">
-      <span className="absolute top-1/2 left-3 size-4 -translate-y-1/2">
-        {icon}
-      </span>
+      {icon && (
+        <span className="absolute top-1/2 left-3 flex size-5 -translate-y-1/2 items-center justify-center">
+          {icon}
+        </span>
+      )}
       <input
         type={type}
         data-slot="input"

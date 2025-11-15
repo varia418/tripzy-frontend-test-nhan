@@ -85,7 +85,7 @@ export function DatePicker({
             variant="ghost"
             size="icon"
             disabled={disabled}
-            className="absolute top-1/2 left-3 size-4 -translate-y-1/2"
+            className="absolute top-1/2 left-3 size-5 -translate-y-1/2"
           >
             <CalendarIcon className="size-4" />
             <span className="sr-only">Select date</span>
