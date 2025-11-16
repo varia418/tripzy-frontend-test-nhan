@@ -5,7 +5,7 @@ import { Button } from "./button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { ButtonGroup } from "./button-group";
 
-interface InputProps extends React.ComponentProps<"input"> {
+export interface InputProps extends React.ComponentProps<"input"> {
   icon?: React.ReactNode;
 }
 
