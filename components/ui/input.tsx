@@ -5,11 +5,17 @@ import { Button } from "./button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { ButtonGroup } from "./button-group";
 
-export interface InputProps extends React.ComponentProps<"input"> {
-  icon?: React.ReactNode;
+export interface InputRef {
+  blur: () => void;
+  focus: () => void;
 }
 
-const Input = ({ className, type, icon, ...props }: InputProps) => {
+export interface InputProps extends Omit<React.ComponentProps<"input">, "ref"> {
+  icon?: React.ReactNode;
+  ref?: React.Ref<InputRef>;
+}
+
+const Input = ({ className, type, icon, ref, ...props }: InputProps) => {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const handleStep = (direction: "up" | "down") => {
@@ -22,6 +28,17 @@ const Input = ({ className, type, icon, ...props }: InputProps) => {
       inputRef.current.dispatchEvent(event);
     }
   };
+
+  React.useImperativeHandle(ref, () => {
+    return {
+      blur: () => {
+        inputRef.current?.blur();
+      },
+      focus: () => {
+        inputRef.current?.focus();
+      },
+    };
+  }, []);
 
   return (
     <div className="relative">
