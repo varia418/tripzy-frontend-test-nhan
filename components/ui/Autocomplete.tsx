@@ -24,7 +24,6 @@ function Autocomplete({
   onValueChange,
 }: AutocompleteProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [inputValue, setInputValue] = useState(inputProps.value || "");
   const inputRef = useRef<InputRef>(null);
 
   useImperativeHandle(inputProps.ref, () => inputRef.current!);
@@ -35,7 +34,6 @@ function Autocomplete({
         <Input
           {...inputProps}
           ref={inputRef}
-          value={inputValue}
           aria-invalid={isError}
           onBlur={(e) => {
             setIsOpen(false);
@@ -44,10 +42,6 @@ function Autocomplete({
           onFocus={(e) => {
             setIsOpen(true);
             inputProps.onFocus?.(e);
-          }}
-          onChange={(e) => {
-            setInputValue(e.target.value);
-            inputProps.onChange?.(e);
           }}
         />
       </CommandPrimitive.Input>
@@ -63,7 +57,6 @@ function Autocomplete({
                   event.stopPropagation();
                 }}
                 onSelect={() => {
-                  setInputValue(option);
                   onValueChange?.(option);
                   inputRef?.current?.blur();
                 }}
