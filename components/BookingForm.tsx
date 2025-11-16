@@ -130,10 +130,15 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
 
   const { handleSubmit, control, setValue, trigger } = form;
 
-  const { roundTripEnabled } = useWatch({ control });
+  const { roundTripEnabled, from, to } = useWatch({ control });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+  }
+
+  function swapLocations() {
+    setValue("from", to ?? "");
+    setValue("to", from ?? "");
   }
 
   return (
@@ -182,6 +187,7 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
                 <Button
                   variant={"ghost"}
                   type="button"
+                  onClick={swapLocations}
                   className="text-primary hover:text-primary row-start-2 size-12 self-end rounded-full p-3 shadow-[0_2px_4px_0_hsla(207,57%,29%,0.12)]"
                 >
                   <ArrowRightLeft />
