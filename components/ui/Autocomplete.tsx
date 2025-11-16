@@ -13,12 +13,14 @@ import { cn } from "@/lib/utils";
 interface AutocompleteProps {
   options: string[];
   inputProps: InputProps;
+  isError?: boolean;
   onValueChange?: (value: string) => void;
 }
 
 function Autocomplete({
   options,
   inputProps,
+  isError,
   onValueChange,
 }: AutocompleteProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,6 +36,7 @@ function Autocomplete({
           {...inputProps}
           ref={inputRef}
           value={inputValue}
+          aria-invalid={isError}
           onBlur={(e) => {
             setIsOpen(false);
             inputProps.onBlur?.(e);

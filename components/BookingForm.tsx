@@ -154,27 +154,30 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
                 <FormField
                   control={control}
                   name="from"
-                  render={({ field }) => (
-                    <>
-                      <FormLabel>FROM</FormLabel>
-                      <FormControl>
-                        <Autocomplete
-                          options={locations.map(
-                            (location) => location.englishName
-                          )}
-                          inputProps={{
-                            ...field,
-                            placeholder: "Enter city, terminal,...",
-                            icon: <BusIcon size={16} />,
-                          }}
-                          onValueChange={(value) => {
-                            setValue("from", value, { shouldValidate: true });
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </>
-                  )}
+                  render={({ field, fieldState }) => {
+                    return (
+                      <>
+                        <FormLabel>FROM</FormLabel>
+                        <FormControl>
+                          <Autocomplete
+                            options={locations.map(
+                              (location) => location.englishName
+                            )}
+                            inputProps={{
+                              ...field,
+                              placeholder: "Enter city, terminal,...",
+                              icon: <BusIcon size={16} />,
+                            }}
+                            isError={fieldState.invalid}
+                            onValueChange={(value) => {
+                              setValue("from", value, { shouldValidate: true });
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </>
+                    );
+                  }}
                 />
                 <Button
                   variant={"ghost"}
@@ -186,19 +189,30 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
                 <FormField
                   control={control}
                   name="to"
-                  render={({ field }) => (
-                    <>
-                      <FormLabel className="row-start-1">TO</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          placeholder="Enter city, terminal,..."
-                          icon={<BusIcon size={16} />}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </>
-                  )}
+                  render={({ field, fieldState }) => {
+                    return (
+                      <>
+                        <FormLabel className="row-start-1">TO</FormLabel>
+                        <FormControl>
+                          <Autocomplete
+                            options={locations.map(
+                              (location) => location.englishName
+                            )}
+                            inputProps={{
+                              ...field,
+                              placeholder: "Enter city, terminal,...",
+                              icon: <BusIcon size={16} />,
+                            }}
+                            isError={fieldState.invalid}
+                            onValueChange={(value) => {
+                              setValue("to", value, { shouldValidate: true });
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </>
+                    );
+                  }}
                 />
               </div>
               <div className="grid grid-flow-col grid-cols-[repeat(2,minmax(0,224px))] grid-rows-[repeat(3,minmax(0,max-content))] gap-2">
