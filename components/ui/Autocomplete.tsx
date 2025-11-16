@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 interface AutocompleteProps {
   options: string[];
   inputProps: InputProps;
-  isError?: boolean;
+  isError: boolean;
   onValueChange?: (value: string) => void;
 }
 
