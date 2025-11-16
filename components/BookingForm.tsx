@@ -21,6 +21,7 @@ import BusIcon from "./icons/BusIcon";
 import { DatePicker } from "./ui/DatePicker";
 import { Label } from "./ui/label";
 import { Checkbox } from "./ui/checkbox";
+import Autocomplete from "./ui/Autocomplete";
 
 export interface CategoryTab {
   label: string;
@@ -157,10 +158,18 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
                     <>
                       <FormLabel>FROM</FormLabel>
                       <FormControl>
-                        <Input
-                          {...field}
-                          placeholder="Enter city, terminal,..."
-                          icon={<BusIcon size={16} />}
+                        <Autocomplete
+                          options={locations.map(
+                            (location) => location.englishName
+                          )}
+                          inputProps={{
+                            ...field,
+                            placeholder: "Enter city, terminal,...",
+                            icon: <BusIcon size={16} />,
+                          }}
+                          onValueChange={(value) => {
+                            setValue("from", value, { shouldValidate: true });
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
