@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { Input, InputProps } from "./input";
+import { useImperativeHandle, useRef, useState } from "react";
+import { Input, InputProps, InputRef } from "./input";
 import {
   Command,
   CommandEmpty,
@@ -23,7 +23,9 @@ function Autocomplete({
 }: AutocompleteProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState(inputProps.value || "");
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<InputRef>(null);
+
+  useImperativeHandle(inputProps.ref, () => inputRef.current!);
 
   return (
     <Command className="overflow-visible">
@@ -75,4 +77,5 @@ function Autocomplete({
 
 export default Autocomplete;
 
-// Credits: https://github.com/armandsalle/my-site/blob/main/src/react/autocomplete.tsx
+// Adapted from armandSalle’s autocomplete component:
+// https://github.com/armandsalle/my-site/blob/main/src/react/autocomplete.tsx
