@@ -54,9 +54,9 @@ function Autocomplete({
       <div
         className={cn("relative top-2 w-[331px]", isOpen ? "block" : "hidden")}
       >
-        <CommandList className="bg-background absolute w-full gap-0.5 rounded-lg p-1 shadow-[0_4px_12px_0_hsla(207,57%,29%,0.12)]">
+        <CommandList className="bg-background absolute max-h-[350px] w-full gap-0.5 rounded-lg p-1 shadow-[0_4px_12px_0_hsla(207,57%,29%,0.12)]">
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup>
+          <CommandGroup className="max-h-[300px] overflow-y-auto">
             {options.map((option) => (
               <CommandItem
                 key={option.value}
