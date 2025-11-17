@@ -10,8 +10,14 @@ import {
 import { Command as CommandPrimitive } from "cmdk";
 import { cn } from "@/lib/utils";
 
+interface Option {
+  label: string;
+  description: string;
+  value: string;
+}
+
 interface AutocompleteProps {
-  options: string[];
+  options: Option[];
   inputProps: InputProps;
   isError: boolean;
   onValueChange?: (value: string) => void;
@@ -45,23 +51,31 @@ function Autocomplete({
           }}
         />
       </CommandPrimitive.Input>
-      <div className={cn("relative top-1", isOpen ? "block" : "hidden")}>
-        <CommandList className="bg-background absolute w-full rounded-lg p-1 shadow-[0_4px_12px_0_hsla(207,57%,29%,0.12)]">
+      <div
+        className={cn("relative top-2 w-[331px]", isOpen ? "block" : "hidden")}
+      >
+        <CommandList className="bg-background absolute w-full gap-0.5 rounded-lg p-1 shadow-[0_4px_12px_0_hsla(207,57%,29%,0.12)]">
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup>
             {options.map((option) => (
               <CommandItem
-                key={option}
+                key={option.value}
+                className="flex flex-col items-start gap-2 px-4 py-2"
                 onMouseDown={(event) => {
                   event.preventDefault();
                   event.stopPropagation();
                 }}
                 onSelect={() => {
-                  onValueChange?.(option);
+                  onValueChange?.(option.value);
                   inputRef?.current?.blur();
                 }}
               >
-                {option}
+                <p className="text-sm leading-none font-semibold tracking-normal">
+                  {option.label}
+                </p>
+                <p className="text-muted-foreground text-xs leading-none font-semibold tracking-normal">
+                  {option.description}
+                </p>
               </CommandItem>
             ))}
           </CommandGroup>

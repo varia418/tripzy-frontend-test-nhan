@@ -116,6 +116,14 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
     }
   }, [selectedTab, locationData]);
 
+  const autocompleteLocations = useMemo(() => {
+    return locations.map((location) => ({
+      label: `${location.shortCode} - ${location.englishName}`,
+      description: location.codeState,
+      value: `${location.shortCode} - ${location.englishName}`,
+    }));
+  }, [locations]);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -165,9 +173,7 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
                         <FormLabel>FROM</FormLabel>
                         <FormControl>
                           <Autocomplete
-                            options={locations.map(
-                              (location) => location.englishName
-                            )}
+                            options={autocompleteLocations}
                             inputProps={{
                               ...field,
                               placeholder: "Enter city, terminal,...",
@@ -201,9 +207,7 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
                         <FormLabel className="row-start-1">TO</FormLabel>
                         <FormControl>
                           <Autocomplete
-                            options={locations.map(
-                              (location) => location.englishName
-                            )}
+                            options={autocompleteLocations}
                             inputProps={{
                               ...field,
                               placeholder: "Enter city, terminal,...",
