@@ -22,6 +22,7 @@ import { DatePicker } from "./ui/DatePicker";
 import { Label } from "./ui/label";
 import { Checkbox } from "./ui/checkbox";
 import Autocomplete from "./ui/Autocomplete";
+import { useRouter } from "next/navigation";
 
 export interface CategoryTab {
   label: string;
@@ -102,6 +103,7 @@ const formSchema = z
 
 function BookingForm({ locationData }: { locationData: LocationData }) {
   const [selectedTab, setSelectedTab] = useState<string>(tabs[0].value);
+  const router = useRouter();
 
   const locations = useMemo(() => {
     switch (selectedTab) {
@@ -141,7 +143,18 @@ function BookingForm({ locationData }: { locationData: LocationData }) {
   const { roundTripEnabled, from, to } = useWatch({ control });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    const params = new URLSearchParams({
+      mode: selectedTab,
+      from: values.from,
+      to: values.to,
+      departureDate: values.departureDate.toLocaleDateString("vi-VN"),
+      returnDate: values.roundTripEnabled
+        ? values.returnDate!.toLocaleDateString("vi-VN")
+        : "",
+      passengers: values.passengers.toString(),
+    });
+    
+    router.push("/search?" + params.toString());
   }
 
   function swapLocations() {
